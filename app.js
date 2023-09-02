@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import conn from './db.js';
 import pageRouter from './routes/pageRouter.js';
+import photoRouter from './routes/photoRouter.js';
 
 dotenv.config();
 
@@ -15,13 +16,8 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 app.use("/", pageRouter)
+app.use("/photos", photoRouter)
 
-// app.get("/", (req, res) => {
-//     res.render("index")
-// })
-// app.get("/about", (req, res) => {
-//     res.render("about")
-// })
 
 app.listen(port, () => {
     console.log(`Server listening to port: ${port}`)
