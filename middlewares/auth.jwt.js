@@ -3,25 +3,22 @@ import jwt from 'jsonwebtoken';
 
 const authenticateToken = async (req, res, next) => {
     try {
-        const authHeader = req.headers["authorization"]
+        const token = req.cookies.jwt
 
-        const token = authHeader && authHeader.split(" ")[1]
-        if (!token)
-            return res.status(401).json({
-                succeded: false,
-                message: 'No Token provided'
+        if (token) {
+            jwt.verify(token, process.env.SECRET_TOKEN, (err) => {
+                if (err) {
+                    console.log(err.message);
+                    res.redirect("/login")
+                } else {
+                    next()
+                }
             })
-
-        const currentUserId = jwt.verify(token, process.env.SECRET_TOKEN).userId
-
-        req.user = await User.findById(currentUserId)
-
-        next()
+        } else {
+            res.redirect("/login")
+        }
     } catch (error) {
-        res.status(401).json({
-            succeded: false,
-            message: 'Invalid Token',
-        })
+        console.log(error)
     }
 
 }

@@ -18,6 +18,12 @@ const createUser = async (req, res) => {
 
 }
 
+const userDashboard = (req, res) => {
+    res.render('dashboard', {
+        link: 'dashboard',
+    })
+}
+
 const loginUser = async (req, res) => {
     try {
         const { username, password } = req.body
@@ -33,11 +39,15 @@ const loginUser = async (req, res) => {
             })
         }
 
-        if (isSame)
-            res.status(200).json({
-                user,
-                token: createToken(user._id)
-            })
+        if (isSame) {
+            const token = createToken(user._id)
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                maxAge: 1000 * 60 * 60 * 24
+            });
+            res.redirect("/users/dashboard")
+        }
+
         else
             res.status(500).json({
                 succeded: false,
@@ -59,4 +69,4 @@ const createToken = (userId) => {
 
 }
 
-export { createUser, loginUser };
+export { createUser, loginUser, userDashboard };
