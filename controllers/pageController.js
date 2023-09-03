@@ -1,5 +1,5 @@
 const getIndexPage = (req, res) => {
-    res.render("index", { link: "home" })
+    res.render("", { link: "home" })
 }
 
 const getAboutPage = (req, res) => {
@@ -12,5 +12,11 @@ const getRegisterPage = (req, res) => {
 const getLoginPage = (req, res) => {
     res.render("login", { link: "login" })
 }
+const getLogout = (req, res) => {
+    res.cookie('jwt', '', {
+        maxAge: 1
+    })
+    res.redirect('/')
+}
 
-export { getAboutPage, getIndexPage, getRegisterPage, getLoginPage }
+export { getAboutPage, getIndexPage, getRegisterPage, getLoginPage, getLogout }
