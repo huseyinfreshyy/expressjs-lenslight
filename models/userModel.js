@@ -31,10 +31,8 @@ const userSchema = new Schema({
 
 userSchema.pre("save", function (next) {
     const user = this
-    console.log("PASS NOT HASH", user.password)
     bcrypt.hash(user.password, 10, (err, hash) => {
         user.password = hash;
-        console.log("PASS  HASH", user.password)
         next();
     })
 })
