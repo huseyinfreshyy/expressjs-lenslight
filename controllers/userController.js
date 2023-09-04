@@ -6,14 +6,27 @@ const createUser = async (req, res) => {
     try {
         const user = await User.create(req.body)
         res.status(201).json({
-            succeded: true,
-            user,
+            user: user._id,
         })
     } catch (error) {
-        res.status(500).json({
-            succeded: false,
-            error
-        })
+
+        console.log(error)
+
+        let err = {}
+
+        if (error.code === 11000) {
+            err.both = 'Email or Username already exists'
+        }
+
+        if (error.name === "ValidationError") {
+            Object.keys(error.errors).forEach((key) => {
+                err[key] = error.errors[key].message
+            })
+        }
+
+        console.log(err)
+
+        res.status(400).json(err)
     }
 
 }

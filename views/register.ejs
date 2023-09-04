@@ -23,13 +23,25 @@
                 <form id="request" class="main_form" action="users/register" method="POST">
                   <div class="row">
                     <div class="col-md-12">
+                      <div style="display: none;" class="alert alert-danger" id="both"></div>
+                    </div>
+                    <div class="col-md-12">
                       <input class="form_control" placeholder="Username" type="text" name="username">
+                    </div>
+                    <div class="col-md-12">
+                      <div style="display: none;" class="alert alert-danger" id="username"></div>
                     </div>
                     <div class="col-md-12">
                       <input class="form_control" placeholder="Email" type="email" name="email">                          
                     </div>
                     <div class="col-md-12">
+                      <div style="display: none;" class="alert alert-danger" id="email"></div>
+                    </div>
+                    <div class="col-md-12">
                      <input class="form_control" placeholder="Password" type="password" name="password">                  
+                    </div>
+                   <div class="col-md-12">
+                    <div style="display: none;" class="alert alert-danger" id="password"></div>
                    </div>
                     <div class="col-md-12">
                       <div class="group_form">
@@ -46,6 +58,76 @@
       <!-- end contact -->
       <!-- end footer -->
       <script>
+        const form = document.querySelector('form')
+            const emailError = document.querySelector('#email')
+            const passwordError = document.querySelector('#password')
+            const usernameError = document.querySelector('#username')
+            const bothError = document.querySelector('#both')
+
+            function clearInputs() {
+              form.email.value = ""
+              form.password.value = ""
+              form.username.value = ""
+            }
+
+            form.addEventListener("submit", async (e) => {
+               e.preventDefault();
+
+               emailError.textContent = "";
+               passwordError.textContent = "";
+               usernameError.textContent = "";
+               bothError.textContent = "";
+               emailError.style.display = "none"
+               passwordError.style.display = "none"
+               usernameError.style.display = "none"
+               bothError.style.display = "none"
+
+               const email = form.email.value
+               const password = form.password.value
+               const username = form.username.value
+
+               try {
+                  const res = await fetch('users/register', {
+                     method: "POST",
+                     body: JSON.stringify({ email, password, username }),
+                     headers: { "Content-Type": "application/json" }
+                  })
+
+                  const data = await res.json();
+
+                  if (data) {
+                    
+                    if(data.both){
+                      bothError.textContent = data.both
+                      bothError.style.display = "block"
+                      clearInputs();
+                    }
+                    if (data.email) {
+                      emailError.textContent = data.email
+                      emailError.style.display = "block"
+                      clearInputs();
+                    }
+                    if (data.password) {
+                      passwordError.textContent = data.password
+                      passwordError.style.display = "block"
+                      clearInputs();
+                    }
+
+                    if (data.username) {
+                      usernameError.textContent = data.username
+                      usernameError.style.display = "block"
+                      clearInputs();
+                    }
+                  }
+                  
+                  if (data.user) {
+                     location.assign("/login")
+                  }
+
+               } catch (err) {
+                  console.log("ERR::", err)
+               }
+              })
         // JavaScript kullanarak focus etkisi ekleyin
         const formElements = document.querySelectorAll(".form-control");
         formElements.forEach(element => {
@@ -56,5 +138,5 @@
             this.classList.remove("hover");
           });
         });
-        </script>
+      </script>
       <%- include('partials/_footer.ejs') %>
