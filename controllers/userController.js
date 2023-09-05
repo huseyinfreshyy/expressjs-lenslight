@@ -71,7 +71,7 @@ const unFollow = async (req, res) => {
 
 const getUserById = async (req, res) => {
     try {
-        const user = await User.findById({ _id: req.params.id })
+        const user = await User.findById({ _id: req.params.id }).populate(['followings', 'followers'])
 
         const isFollower = user.followers.some((f) => {
             return f.equals(res.locals.user._id)

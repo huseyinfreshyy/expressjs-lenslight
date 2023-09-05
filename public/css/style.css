@@ -638,7 +638,18 @@ ul.email li i {
     padding-bottom: 25px;
     text-align: center;
 }
-
+    /* Style the div */
+    .no-items {
+        background-color: #f6388e;
+        padding: 10px;
+        margin: auto;
+        width:50%;
+        height: 50%;
+        text-align: center;
+        font-size: 18px;
+        color: #333;
+        display: block; /* Initially hide the div */
+    }
 .tz-gallery .lightbox .view_btn {
      position: absolute;
      top: 46%;
