@@ -17,6 +17,64 @@ const getAllUsers = async (req, res) => {
 
 }
 
+const follow = async (req, res) => {
+    try {
+
+        let user = await User.findByIdAndUpdate(
+            { _id: req.params.id },
+            { $push: { followers: res.locals.user._id } },
+            { new: true }
+        )
+
+        user = await User.findByIdAndUpdate(
+            { _id: res.locals.user._id },
+            { $push: { followers: req.params.id } },
+            { new: true }
+        )
+
+        res.status(200).json({
+            succeded: true,
+            user
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            succeded: false,
+            error
+        })
+    }
+
+}
+
+const unFollow = async (req, res) => {
+    try {
+
+        let user = await User.findByIdAndUpdate(
+            { _id: req.params.id },
+            { $pull: { followers: res.locals.user._id } },
+            { new: true }
+        )
+
+        user = await User.findByIdAndUpdate(
+            { _id: res.locals.user._id },
+            { $pull: { followers: req.params.id } },
+            { new: true }
+        )
+
+        res.status(200).json({
+            succeded: true,
+            user
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            succeded: false,
+            error
+        })
+    }
+
+}
+
 const getUserById = async (req, res) => {
     try {
         const user = await User.findById({ _id: req.params.id })
@@ -30,7 +88,6 @@ const getUserById = async (req, res) => {
     }
 
 }
-
 const createUser = async (req, res) => {
     try {
         const user = await User.create(req.body)
@@ -64,6 +121,7 @@ const userDashboard = async (req, res) => {
     const photos = await Photo.find({
         user: res.locals.user._id
     })
+    const user = await User.findById({ _id: res.locals.user._id }).populate(['followings', 'followers'])
     res.render('dashboard', {
         photos,
         link: 'dashboard',
@@ -115,4 +173,4 @@ const createToken = (userId) => {
 
 }
 
-export { createUser, loginUser, userDashboard, getAllUsers, getUserById };
+export { createUser, loginUser, userDashboard, getAllUsers, getUserById, follow, unFollow };

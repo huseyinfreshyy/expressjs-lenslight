@@ -23,6 +23,18 @@ const userSchema = new Schema({
         required: [true, 'Email area is required'],
         minLength: [4, 'At least 8 characters']
     },
+    followers: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    followings: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
 },
     {
         timestamps: true
