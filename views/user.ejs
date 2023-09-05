@@ -28,12 +28,7 @@
             <div class="col-md-12">
               <div class="satteb text_align_center">
                 <p>fact that a reader will be distracted by the readable content of a page when looking at its
-                  layout. The point of using Lorem Ipsum is that itfact that a reader will be distracted by the
-                  readable content of a page when looking at its layout. The point of using Lorem Ipsum is that
-                  itfact that a reader will be distracted by the readable content of a page when looking at its
-                  layout. The point of using Lorem Ipsum is that itfact that a reader will be distracted by the
-                  readable content of a page when looking at its layout. The point of using Lorem Ipsum is that
-                  it
+                  layout.
                 </p>
                 <h3>The point of using </h3>
                 <i><img style="width: 200px; height: 200px; object-fit: cover;" src="<%= photos[0].url %>" alt="<%= photos[0].name %>" /></i>
@@ -42,13 +37,33 @@
           </div>
         </div>
       </div>
+
+      <div class="container">
+        <div style="justify-content: center;"class="row">
+          <% if(!isFollower) { %>
+          <div class="col-md-2">
+            <div class="text_align_center">
+                <a style="margin:20px auto;" class="read_more"
+                  href="/users/<%= user._id %>/follow?_method=PUT">FOLLOW</a>      
+            </div>
+          </div>
+          <% } else { %>
+          <div class="col-md-2">
+            <div class="text_align_center">
+            <a style="margin:20px auto;" class="read_more"
+                    href="/users/<%= user._id%>/unfollow?_method=PUT">UNFOLLOW</a>
+                  </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+
       <div class="gallery">
         <div class="container_with">
            <div class="row">
               <div class="col-md-12">
                  <div class="titlepage text_align_center">
-                    <span>03</span>
-                    <h2>Our gallery</h2>
+                    <h2>My Photos</h2>
                  </div>
               </div>
            </div>
@@ -73,9 +88,6 @@
                           </div> 
                        </div>
                        <%  } %>
-                 <div class="col-md-12">
-                   <a class="plus_btn" href="gallery.html">+</a>
-                 </div>
               </div>
            </div>
         </div>
