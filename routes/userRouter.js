@@ -7,9 +7,8 @@ const router = express.Router();
 router.route('/register').post(userController.createUser)
 router.route('/login').post(userController.loginUser)
 router.route('/dashboard').get(auth.authenticateToken, userController.userDashboard)
-
-// .get(userController.getAllUsers);
-// router.route('/:id').get(userController.getUserById)
+router.route('/').get(auth.authenticateToken, userController.getAllUsers)
+router.route('/:id').get(auth.authenticateToken, userController.getUserById)
 
 export default router;
 

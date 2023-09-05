@@ -24,11 +24,12 @@
                      <div class="row">
                         <% for(photo of photos) { %>
                         <div class="col-lg-4 col-md-6 ma_bottom30">
-                           <div class="lightbox">
+                           <div class="lightbox ">
                               <img src="<%= photo.url %>" alt="<%= photo.name %>">
                               <div class="view_main">
                                 <div class="pose">
                                 <a class="read_more" href="/photos/<%= photo._id %>"><img src="/images/ga.png" alt="#"/></a>
+                                
                                 <h3 style="padding-top: 10px; padding-bottom: 10px;"><%= photo.name %></h3>
                                 <p style="padding-top: 10px;"><% if (photo.description.length > 80) { %>
                                           <%= photo.description.substring(0, 77) + "..." %>
@@ -36,8 +37,10 @@
                                           <%= photo.description %>
                                     <% } %>
                               </p>
+                              <a href="/users/<%= photo.user._id %>"> <p>Uploaded : <%= photo.user.username %> <i class="ml-1  fa fa-user" aria-hidden="true"></i></a></p>
                               </div>
                               </div>
+                              
                            </div> 
                         </div>
                         <%  } %>
