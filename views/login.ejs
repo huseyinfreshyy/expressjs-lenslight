@@ -3,7 +3,7 @@
    <body class="main-layout inner_page">
       <!-- loader  -->
       <div class="loader_bg">
-         <div class="loader"><img src="images/loading.gif" alt="#"/></div>
+        <div class="custom-loader"></div>
       </div>
       <!-- end loader -->
      
@@ -46,7 +46,7 @@
       <!-- end contact -->
       <!-- end footer -->
       <script>
-         const form = document.querySelector('form')
+          const form = document.querySelector('form')
              const errorBlock = document.querySelector('#errorBlock')
  
              function clearInputs() {
@@ -54,7 +54,13 @@
                form.username.value = ""
                form.password.value = ""
              }
- 
+             function getCookie(name) {
+              const value = `; ${document.cookie}`;
+              const parts = value.split(`; ${name}=`);
+              if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+            console.log("Cookie",getCookie(jwt))
+
              form.addEventListener("submit", async (e) => {
                 e.preventDefault();
  
@@ -65,7 +71,7 @@
                    const res = await fetch('users/login', {
                       method: "POST",
                       body: JSON.stringify({ username, password }),
-                      headers: { "Content-Type": "application/json" }
+                      headers: { "Content-Type": "application/json","Set-Cookie": `jwt=${getCookie("jwt")}` }
                    })
  
                    const data = await res.json();
@@ -81,6 +87,7 @@
                        },3000)
                    }
                    
+                  
  
                 } catch (err) {
                    console.log("Error : ", err)

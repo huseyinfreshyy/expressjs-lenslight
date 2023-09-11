@@ -39,7 +39,9 @@ const getAllPhotos = async (req, res) => {
             res.locals.user ?
                 await Photo.find({ user: { $ne: res.locals.user._id } }).populate('user')
                 : await Photo.find({}).populate('user')
-        res.status(200).render("photos", { photos, link: "photos" })
+
+        const isCurrentUser = res.locals.user ? true : false
+        res.status(200).render("photos", { photos, link: "photos", isCurrentUser })
     } catch (error) {
         res.status(500).json({
             succeded: false,

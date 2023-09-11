@@ -3,7 +3,7 @@
    <body class="main-layout inner_page">
       <!-- loader  -->
       <div class="loader_bg">
-         <div class="loader"><img src="images/loading.gif" alt="#"/></div>
+        <div class="custom-loader"></div>
       </div>
       <!-- end loader -->
      
@@ -46,10 +46,12 @@
                            </div> 
                         </div>
                         <%  } %>
+                        <% if (isCurrentUser) { %>
                   <div class="col-md-12">
                     <a data-toggle="modal" data-target=".bd-example-modal-lg" type="button"
-                    style=" margin-top:100px; margin-left: 50%; transform: translateX(-50%);" class="plus_btn" href="gallery.html">+</a>
+                    style=" margin-top:100px; margin-left: 50%; transform: translateX(-50%);" class="plus_btn">+</a>
                   </div>
+                  <%  } %>
                </div>
             </div>
          </div>
