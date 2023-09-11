@@ -132,7 +132,7 @@ const loginUser = async (req, res) => {
         if (user)
             isSame = await bcrypt.compare(password, user.password)
         else {
-            return res.status(401).json({
+            res.status(401).json({
                 succeded: false,
                 error: "There is no such a user"
             })
@@ -145,13 +145,13 @@ const loginUser = async (req, res) => {
                 maxAge: 1000 * 60 * 60 * 24
             });
             res.redirect("/users/dashboard")
-        }
-
-        else
-            res.status(500).json({
+        } else {
+            res.status(401).json({
                 succeded: false,
                 error: 'Invalid password or email'
             })
+        }
+
 
     } catch (error) {
         res.status(500).json({

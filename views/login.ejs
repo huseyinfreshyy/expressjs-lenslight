@@ -21,6 +21,9 @@
               </div>
               <div class="col-md-8 offset-md-2">
                 <form id="request" class="main_form" action="users/login" method="POST">
+                  <div class="col-md-12">
+                    <div style="display: none;" class="alert alert-danger" id="errorBlock"></div>
+                  </div>
                   <div class="row">
                     <div class="col-md-12">
                       <input class="form_control" placeholder="Username" type="text" name="username">
@@ -43,6 +46,46 @@
       <!-- end contact -->
       <!-- end footer -->
       <script>
+         const form = document.querySelector('form')
+             const errorBlock = document.querySelector('#errorBlock')
+ 
+             function clearInputs() {
+              errorBlock.style.display = "none"
+               form.username.value = ""
+               form.password.value = ""
+             }
+ 
+             form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+ 
+                const username = form.username.value
+                const password = form.password.value
+ 
+                try {
+                   const res = await fetch('users/login', {
+                      method: "POST",
+                      body: JSON.stringify({ username, password }),
+                      headers: { "Content-Type": "application/json" }
+                   })
+ 
+                   const data = await res.json();
+
+                   console.log("data", data);
+                   
+                   
+                   if (data) {
+                       errorBlock.textContent = data.error
+                       errorBlock.style.display = "block"
+                       setTimeout(()=>{
+                        clearInputs();
+                       },3000)
+                   }
+                   
+ 
+                } catch (err) {
+                   console.log("Error : ", err)
+                }
+               })
         // JavaScript kullanarak focus etkisi ekleyin
         const formElements = document.querySelectorAll(".form-control");
         formElements.forEach(element => {
