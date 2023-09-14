@@ -6,7 +6,6 @@ const checkUser = async (req, res, next) => {
         if (token) {
             jwt.verify(token, process.env.SECRET_TOKEN, async (err, decoded) => {
                 if (err) {
-                    console.log(err.message);
                     res.locals.user = null
                     next()
                 } else {
@@ -30,7 +29,6 @@ const authenticateToken = async (req, res, next) => {
         if (token) {
             jwt.verify(token, process.env.SECRET_TOKEN, (err) => {
                 if (err) {
-                    console.log(err.message);
                     res.redirect("/login")
                 } else {
                     next()
